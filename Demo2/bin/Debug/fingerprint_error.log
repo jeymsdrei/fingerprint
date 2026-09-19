@@ -467,3 +467,217 @@
 2026-09-19 13:39:31.563 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
 2026-09-19 13:39:41.433 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
 2026-09-19 13:39:51.476 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 14:24:16.731 [Info   ] InitializeHrisIntegration | HRIS: configured (http://192.168.1.10:8000/api) | agent=AG-4bd887dad95734a83bc489
+2026-09-19 14:24:25.682 [Info   ] RegisterAgentAndFlush | agent registered
+2026-09-19 14:24:25.685 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:24:25.685 [Info   ] Form1_Load | Initial connect failed, starting retry timer
+2026-09-19 14:24:27.768 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 14:24:28.698 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:24:31.843 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:24:32.094 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 14:24:32.544 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 14:24:34.699 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:24:37.646 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 14:24:37.724 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:24:40.733 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:24:43.736 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:24:46.716 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:24:47.557 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 14:24:49.723 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:24:52.737 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:24:55.734 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:24:57.593 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 14:24:58.746 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:01.735 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:04.752 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:07.628 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 14:25:07.755 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:10.762 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:13.812 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:16.764 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:17.559 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 14:25:19.754 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:22.765 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:25.759 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:27.647 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 14:25:28.752 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:31.776 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:34.760 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:37.623 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 14:25:37.775 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:40.760 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:43.769 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:46.795 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:47.564 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 14:25:49.792 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:52.777 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:55.775 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:25:57.596 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 14:25:58.770 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:01.783 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:04.818 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:07.529 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:26:07.786 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:10.788 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:13.803 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:16.790 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:17.870 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:26:19.799 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:22.794 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:25.791 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:27.807 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:26:28.804 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:31.789 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:34.796 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:37.803 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:37.942 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:26:40.802 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:43.814 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:46.810 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:47.673 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:26:49.807 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:52.821 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:55.823 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:26:57.905 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:26:58.820 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:27:01.820 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:27:04.803 [Error  ] SDK | TryAutoInitialize | Init | ret=-1 (UNKNOWN_-1)
+2026-09-19 14:27:07.745 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:27:08.654 [Info   ] TryAutoInitialize | Device connected successfully
+2026-09-19 14:27:13.061 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:27:15.621 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:27:17.673 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:27:19.534 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:27:23.058 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:27:27.606 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:27:30.889 [Info   ] ResolveHrisFingerprintId | T-0002 -> fid 2
+2026-09-19 14:27:37.643 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:27:41.519 [Error  ] SDK | DefWndProc | DBAdd | ret=-13 (UNKNOWN_-13)
+2026-09-19 14:27:43.417 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:27:45.788 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:27:47.882 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:27:49.421 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:27:51.156 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:27:53.053 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:27:54.739 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:27:56.176 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:27:57.710 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:27:59.729 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:28:02.209 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:28:03.719 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:28:06.725 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:28:07.750 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:28:10.337 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:28:12.090 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:28:14.252 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-09-19 14:28:17.579 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:28:25.155 [Info   ] ResolveHrisFingerprintId | T-0006 -> fid 3
+2026-09-19 14:28:27.818 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:28:34.262 [Warning] SaveFingerprintToDB | No employee selected; skipping save
+2026-09-19 14:28:37.943 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:28:47.883 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:28:52.292 [Info   ] ResolveHrisFingerprintId | T-0004 -> fid 4
+2026-09-19 14:28:57.618 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:29:08.673 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:29:17.915 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:29:27.723 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:29:37.761 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:29:47.657 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:29:57.570 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:30:05.205 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:30:05.611 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:30:07.641 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:30:17.799 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:30:27.783 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:30:37.758 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:30:48.188 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:30:57.938 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:31:08.117 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:31:18.011 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:31:28.243 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:31:41.045 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:31:48.013 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:31:57.948 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:32:07.776 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:32:17.844 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:32:27.794 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:32:37.691 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:32:47.811 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:32:57.781 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:33:08.397 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:33:17.815 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:33:27.947 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:33:37.840 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:33:47.899 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:33:57.779 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:34:07.791 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:34:17.825 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:34:27.689 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:34:37.738 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:34:50.804 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:34:57.760 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:35:07.881 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:35:17.791 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:35:27.750 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:35:38.001 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:35:47.908 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:35:57.768 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:36:07.802 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:36:17.943 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:36:27.770 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:36:37.907 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:36:47.947 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:36:58.071 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:37:08.216 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:37:18.043 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:37:28.080 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:37:31.919 [Info   ] OnFormClosing | Application shutting down
+2026-09-19 14:37:32.590 [Info   ] RegisterAgentAndFlush | agent registered
+2026-09-19 14:37:32.666 [Info   ] CloseDevice | Device closed
+2026-09-19 14:54:45.264 [Info   ] InitializeHrisIntegration | HRIS: configured (http://192.168.1.10:8000/api) | agent=AG-4bd887dad95734a83bc489
+2026-09-19 14:54:46.621 [Info   ] RegisterAgentAndFlush | agent registered
+2026-09-19 14:54:47.181 [Info   ] TryAutoInitialize | Device connected successfully
+2026-09-19 14:54:54.103 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:54:54.476 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:54:56.114 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:54:58.165 [Info   ] ResolveHrisFingerprintId | T-0006 -> fid 3
+2026-09-19 14:55:06.136 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:55:16.185 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:55:18.331 [Info   ] PushPunchToHris | pushed att-2 imported=1
+2026-09-19 14:55:26.128 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:55:29.500 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:55:29.805 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:55:36.151 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:55:38.100 [Info   ] ResolveHrisFingerprintId | T-0003 -> fid 5
+2026-09-19 14:55:46.190 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:55:56.646 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:56:06.159 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:56:16.045 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:56:26.026 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:56:36.110 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:56:46.043 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:56:56.076 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:57:06.035 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:57:16.093 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:57:26.057 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:57:36.016 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:57:46.046 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:57:56.073 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:58:06.043 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:58:16.037 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:58:26.042 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:58:36.149 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:58:46.236 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:58:56.091 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:59:06.024 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:59:16.081 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:59:26.118 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:59:36.139 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:59:48.838 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 14:59:57.091 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 15:00:06.134 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 15:00:16.638 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 15:00:26.188 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 15:00:36.720 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 15:00:46.188 [Info   ] RefreshEmployeesFromHris | fetched 11 employees
+2026-09-19 15:00:56.161 [Info   ] RefreshEmployeesFromHris | fetched 11 employees

@@ -6,4 +6,10 @@
     <DateTime>2026-09-19T13:19:39.4571984+08:00</DateTime>
     <Action>Time In</Action>
   </AttendanceRecord>
+  <AttendanceRecord>
+    <AttendanceID>2</AttendanceID>
+    <EmployeeID>T-0006</EmployeeID>
+    <DateTime>2026-09-19T14:55:17.7644147+08:00</DateTime>
+    <Action>Time In</Action>
+  </AttendanceRecord>
 </ArrayOfAttendanceRecord>

@@ -91,34 +91,36 @@ namespace Demo.Data
 
         private static string GetSdkErrorName(int ret)
         {
+            // This SDK reports its error codes as negative values
+            // (e.g. -13 is ZKFP_ERR_INVALID_IMAGE), so use the negative table.
             switch (ret)
             {
                 case 0: return "ZKFP_ERR_OK";
-                case 1: return "ZKFP_ERR_FAIL";
-                case 2: return "ZKFP_ERR_INVALID_HANDLE";
-                case 3: return "ZKFP_ERR_INVALID_PARAM";
-                case 4: return "ZKFP_ERR_NO_DEVICE";
-                case 5: return "ZKFP_ERR_NOT_OPEN";
-                case 6: return "ZKFP_ERR_NOT_SUPPORTED";
-                case 7: return "ZKFP_ERR_NO_TEMPLATE";
-                case 8: return "ZKFP_ERR_BUFFER_TOO_SMALL";
-                case 9: return "ZKFP_ERR_EXIST";
-                case 10: return "ZKFP_ERR_NOT_EXIST";
-                case 11: return "ZKFP_ERR_TIMEOUT";
-                case 12: return "ZKFP_ERR_DEVICE_BUSY";
-                case 13: return "ZKFP_ERR_INVALID_IMAGE";
-                case 14: return "ZKFP_ERR_NO_FINGER";
-                case 15: return "ZKFP_ERR_CANCEL";
-                case 16: return "ZKFP_ERR_VERIFY";
-                case 17: return "ZKFP_ERR_IDENTIFY";
-                case 18: return "ZKFP_ERR_ENROLL";
-                case 19: return "ZKFP_ERR_EXTRACT";
-                case 20: return "ZKFP_ERR_MERGE";
-                case 21: return "ZKFP_ERR_DUPLICATE";
-                case 22: return "ZKFP_ERR_EMPTY";
-                case 23: return "ZKFP_ERR_ALLOC";
-                case 24: return "ZKFP_ERR_ACCESS";
-                case 25: return "ZKFP_ERR_DB_FULL";
+                case -1: return "ZKFP_ERR_FAIL";
+                case -2: return "ZKFP_ERR_INVALID_HANDLE";
+                case -3: return "ZKFP_ERR_INVALID_PARAM";
+                case -4: return "ZKFP_ERR_NO_DEVICE";
+                case -5: return "ZKFP_ERR_NOT_OPEN";
+                case -6: return "ZKFP_ERR_NOT_SUPPORTED";
+                case -7: return "ZKFP_ERR_NO_TEMPLATE";
+                case -8: return "ZKFP_ERR_BUFFER_TOO_SMALL";
+                case -9: return "ZKFP_ERR_EXIST";
+                case -10: return "ZKFP_ERR_NOT_EXIST";
+                case -11: return "ZKFP_ERR_TIMEOUT";
+                case -12: return "ZKFP_ERR_DEVICE_BUSY";
+                case -13: return "ZKFP_ERR_INVALID_IMAGE";
+                case -14: return "ZKFP_ERR_NO_FINGER";
+                case -15: return "ZKFP_ERR_CANCEL";
+                case -16: return "ZKFP_ERR_VERIFY";
+                case -17: return "ZKFP_ERR_IDENTIFY";
+                case -18: return "ZKFP_ERR_ENROLL";
+                case -19: return "ZKFP_ERR_EXTRACT";
+                case -20: return "ZKFP_ERR_MERGE";
+                case -21: return "ZKFP_ERR_DUPLICATE";
+                case -22: return "ZKFP_ERR_EMPTY";
+                case -23: return "ZKFP_ERR_ALLOC";
+                case -24: return "ZKFP_ERR_ACCESS";
+                case -25: return "ZKFP_ERR_DB_FULL";
                 default: return "UNKNOWN_" + ret;
             }
         }

@@ -60,4 +60,9 @@
     <FirstName>pat</FirstName>
     <LastName>mendaro</LastName>
   </Employee>
+  <Employee>
+    <EmployeeID>T-0006</EmployeeID>
+    <FirstName>james</FirstName>
+    <LastName>bibon</LastName>
+  </Employee>
 </ArrayOfEmployee>

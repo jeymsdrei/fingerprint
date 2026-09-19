@@ -196,8 +196,35 @@ namespace Demo
                 if (ret == zkfp.ZKFP_ERR_OK)
                 {
                     SendMessage(FormHandle, MESSAGE_CAPTURED_OK, IntPtr.Zero, IntPtr.Zero);
+                    // One finger press must produce exactly one capture. Without
+                    // waiting for the finger to be lifted, a single sustained
+                    // press fires several near-identical captures and DBMerge
+                    // produces an invalid template (DBAdd returns
+                    // ZKFP_ERR_INVALID_IMAGE / -13), so enrollment fails.
+                    WaitForFingerUp(10000);
                 }
-                Thread.Sleep(200);
+                else
+                {
+                    Thread.Sleep(200);
+                }
+            }
+        }
+
+        // After an accepted capture, keep draining the sensor until the finger
+        // is removed (timeout guarded) so the next capture is a new scan.
+        private void WaitForFingerUp(int timeoutMs)
+        {
+            int start = Environment.TickCount;
+            while (!bIsTimeToDie)
+            {
+                cbCapTmp = 2048;
+                int ret = zkfp2.AcquireFingerprint(mDevHandle, FPBuffer, CapTmp, ref cbCapTmp);
+                // Any non-OK return means no usable image is on the sensor
+                // right now, i.e. the finger has been lifted (or the sensor
+                // timed out waiting for one).
+                if (ret != zkfp.ZKFP_ERR_OK) return;
+                if (Environment.TickCount - start > timeoutMs) return;
+                Thread.Sleep(100);
             }
         }
 
@@ -241,14 +268,38 @@ namespace Demo
                                 if (zkfp.ZKFP_ERR_OK == mergeRet)
                                 {
                                     int deviceFid = _enrollFid > 0 ? _enrollFid : iFid;
+
+                                    // The HRIS may hand out an fid already claimed
+                                    // by another employee's saved template (loaded
+                                    // into the device DB at startup), which makes
+                                    // DBAdd fail. Fall back to the next free local
+                                    // slot in that case.
+                                    FingerprintRecord takenFid = _db.FindFingerprintByFid(deviceFid);
+                                    if (takenFid != null && _enrollTarget != null
+                                        && takenFid.EmployeeID != _enrollTarget.EmployeeID)
+                                    {
+                                        int newFid = _db.GetNextFingerprintId();
+                                        FingerprintLogger.Warning("DefWndProc | fid " + deviceFid + " already used by " + takenFid.EmployeeID + "; using local slot " + newFid);
+                                        deviceFid = newFid;
+                                    }
+
                                     int addRet = zkfp2.DBAdd(mDBHandle, deviceFid, RegTmp);
+                                    if (addRet != zkfp.ZKFP_ERR_OK && _db.FindFingerprintByFid(deviceFid) == null)
+                                    {
+                                        // Nothing in the local store claims this fid.
+                                        // If the device DB still holds it, it is an
+                                        // orphan from an interrupted registration -
+                                        // remove it and retry once.
+                                        FingerprintLogger.Warning("DefWndProc | DBAdd fid=" + deviceFid + " ret=" + addRet + "; removing possible orphan and retrying");
+                                        zkfp2.DBDel(mDBHandle, deviceFid);
+                                        addRet = zkfp2.DBAdd(mDBHandle, deviceFid, RegTmp);
+                                    }
                                     textRes.Text = "DBAdd ret=" + addRet + " fid=" + deviceFid;
                                     if (zkfp.ZKFP_ERR_OK == addRet)
                                     {
-                                        int savedFid = deviceFid;
-                                        iFid++;
-                                        textRes.Text = "enroll succ fid=" + savedFid;
-                                        SaveFingerprintToDB(savedFid);
+                                        textRes.Text = "enroll succ fid=" + deviceFid;
+                                        SaveFingerprintToDB(deviceFid);
+                                        iFid = _db.GetNextFingerprintId();
                                         ResetRegistrationForm();
                                     }
                                     else
@@ -934,7 +985,11 @@ namespace Demo
             lblQuality.Text = "Fingerprint Quality: Waiting...";
             IsRegister = false;
             RegisterCount = 0;
-            cbRegTmp = 0;
+            // Keep the "templates registered" flag valid after a successful
+            // enrollment, otherwise Time In / Time Out refuse to run until the
+            // app is restarted.
+            if (_db.FingerprintCount == 0) cbRegTmp = 0;
+            else if (cbRegTmp <= 0) cbRegTmp = 2048;
             LoadEmployeeChoices();
         }
 
@@ -942,7 +997,8 @@ namespace Demo
         {
             IsRegister = false;
             RegisterCount = 0;
-            cbRegTmp = 0;
+            if (_db.FingerprintCount == 0) cbRegTmp = 0;
+            else if (cbRegTmp <= 0) cbRegTmp = 2048;
             progressEnroll.Value = 0;
             lblEnrollStep.Text = "Press finger 1 of 3";
             UpdateScannerState("Enrollment cancelled", Color.FromArgb(148, 163, 184));
@@ -991,7 +1047,13 @@ namespace Demo
         private void LoadEmployeeChoices()
         {
             if (lstEmployees == null) return;
-            _enrollTarget = null;
+
+            // Preserve the selected employee across list rebuilds. The HRIS
+            // heartbeat sync rebuilds this list every few seconds, which used
+            // to clear _enrollTarget mid-enrollment and made
+            // SaveFingerprintToDB skip the employee being registered.
+            string keepId = _enrollTarget != null ? _enrollTarget.EmployeeID : null;
+
             _enrollChoices.Clear();
             lstEmployees.Items.Clear();
 
@@ -1000,6 +1062,20 @@ namespace Demo
                 if (_db.Fingerprints.Exists(f => f.EmployeeID == e.EmployeeID)) continue;
                 _enrollChoices.Add(e);
                 lstEmployees.Items.Add(FormatChoice(e));
+            }
+
+            _enrollTarget = null;
+            if (keepId != null)
+            {
+                for (int i = 0; i < _enrollChoices.Count; i++)
+                {
+                    if (_enrollChoices[i].EmployeeID == keepId)
+                    {
+                        _enrollTarget = _enrollChoices[i];
+                        lstEmployees.SelectedIndex = i;
+                        break;
+                    }
+                }
             }
 
             lblQuality.Text = _enrollChoices.Count + " employee(s) available for registration.";
@@ -1154,6 +1230,9 @@ namespace Demo
                 return;
             }
             _enrollTarget = _enrollChoices[idx];
+            // During an active enrollment (list restored by the HRIS heartbeat
+            // sync) do not clobber the step/quality labels the UI relies on.
+            if (IsRegister) return;
             lblEnrollStep.Text = "Selected: " + FullName(_enrollTarget);
             lblQuality.Text = "Click Register to enroll this employee's fingerprint.";
         }
