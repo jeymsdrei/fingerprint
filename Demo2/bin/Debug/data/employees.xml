@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<ArrayOfEmployee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Employee>
+    <EmployeeID>BSBA-0001</EmployeeID>
+    <FirstName>Ana</FirstName>
+    <LastName>Dela Cruz</LastName>
+    <Position>Faculty</Position>
+  </Employee>
+  <Employee>
+    <EmployeeID>BSCS-0001</EmployeeID>
+    <FirstName>Jane</FirstName>
+    <LastName>Santos</LastName>
+    <Position>Faculty</Position>
+  </Employee>
+  <Employee>
+    <EmployeeID>BSCS-0002</EmployeeID>
+    <FirstName>John</FirstName>
+    <LastName>Reyes</LastName>
+    <Position>Program Head</Position>
+  </Employee>
+  <Employee>
+    <EmployeeID>BSHM-0001</EmployeeID>
+    <FirstName>Carlos</FirstName>
+    <LastName>Garcia</LastName>
+    <Department>BS Hospitality Management</Department>
+    <Position>Faculty</Position>
+  </Employee>
+  <Employee>
+    <EmployeeID>BSHM-0002</EmployeeID>
+    <FirstName>Pedro</FirstName>
+    <LastName>Villanueva</LastName>
+    <Department>BS Hospitality Management</Department>
+    <Position>Faculty</Position>
+  </Employee>
+  <Employee>
+    <EmployeeID>T-0001</EmployeeID>
+    <FirstName>Jay</FirstName>
+    <MiddleName>Broso</MiddleName>
+    <LastName>Barbacena</LastName>
+  </Employee>
+  <Employee>
+    <EmployeeID>T-0002</EmployeeID>
+    <FirstName>albertb</FirstName>
+    <MiddleName>b</MiddleName>
+    <LastName>bert</LastName>
+  </Employee>
+  <Employee>
+    <EmployeeID>T-0003</EmployeeID>
+    <FirstName>Andrew</FirstName>
+    <LastName>Peralta</LastName>
+    <Department>BS Hospitality Management</Department>
+  </Employee>
+  <Employee>
+    <EmployeeID>T-0004</EmployeeID>
+    <FirstName>kim</FirstName>
+    <LastName>caneta</LastName>
+  </Employee>
+  <Employee>
+    <EmployeeID>T-0005</EmployeeID>
+    <FirstName>pat</FirstName>
+    <LastName>mendaro</LastName>
+  </Employee>
+</ArrayOfEmployee>

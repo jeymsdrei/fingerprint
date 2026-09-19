@@ -1,0 +1,469 @@
+2026-08-29 16:18:20.812 [Info   ] TryAutoInitialize | Device connected successfully
+2026-08-29 16:18:27.827 [Info   ] OnFormClosing | Application shutting down
+2026-08-29 16:18:28.993 [Info   ] CloseDevice | Device closed
+2026-08-29 16:22:35.274 [Info   ] TryAutoInitialize | Device connected successfully
+2026-08-29 16:27:30.246 [Info   ] OnFormClosing | Application shutting down
+2026-08-29 16:27:30.358 [Info   ] CloseDevice | Device closed
+2026-08-29 16:27:38.087 [Info   ] TryAutoInitialize | Device connected successfully
+2026-08-29 16:33:28.393 [Info   ] TryAutoInitialize | Device connected successfully
+2026-08-29 16:35:57.044 [Info   ] TryAutoInitialize | Device connected successfully
+2026-08-29 16:40:03.849 [Info   ] OnFormClosing | Application shutting down
+2026-08-29 16:40:04.549 [Info   ] CloseDevice | Device closed
+2026-08-29 16:40:11.967 [Info   ] TryAutoInitialize | Device connected successfully
+2026-08-29 16:50:27.629 [Info   ] TryAutoInitialize | Device connected successfully
+2026-08-29 16:50:53.419 [Info   ] PushPunchToHris | pushed fingerprintId=1
+2026-08-29 16:53:59.608 [Info   ] OnFormClosing | Application shutting down
+2026-08-29 16:53:59.680 [Info   ] CloseDevice | Device closed
+2026-08-29 16:54:06.223 [Info   ] TryAutoInitialize | Device connected successfully
+2026-08-29 16:54:36.850 [Info   ] PushPunchToHris | pushed fingerprintId=2
+2026-08-29 16:56:53.584 [Warning] PushPunchToHris | queued (1 pending): HTTP error
+2026-08-29 16:57:06.342 [Info   ] FlushPendingQueue | sent=0 dropped(permanent)=0 remaining=1
+2026-08-29 16:57:15.001 [Warning] PushPunchToHris | queued (2 pending): HTTP error
+2026-08-29 16:57:38.381 [Info   ] FlushPendingQueue | sent=0 dropped(permanent)=0 remaining=2
+2026-08-29 16:58:08.387 [Info   ] FlushPendingQueue | sent=0 dropped(permanent)=0 remaining=2
+2026-08-29 16:58:38.355 [Info   ] FlushPendingQueue | sent=0 dropped(permanent)=0 remaining=2
+2026-08-29 16:59:08.394 [Info   ] FlushPendingQueue | sent=0 dropped(permanent)=0 remaining=2
+2026-08-29 16:59:32.222 [Warning] PushPunchToHris | queued (3 pending): HTTP error
+2026-08-29 16:59:40.424 [Info   ] FlushPendingQueue | sent=0 dropped(permanent)=0 remaining=3
+2026-08-29 17:00:10.431 [Info   ] FlushPendingQueue | sent=0 dropped(permanent)=0 remaining=3
+2026-08-29 17:00:40.404 [Info   ] FlushPendingQueue | sent=0 dropped(permanent)=0 remaining=3
+2026-08-29 17:01:10.428 [Info   ] FlushPendingQueue | sent=0 dropped(permanent)=0 remaining=3
+2026-08-29 17:01:40.421 [Info   ] FlushPendingQueue | sent=0 dropped(permanent)=0 remaining=3
+2026-08-29 17:02:05.743 [Info   ] FlushPendingQueue | sent=0 dropped(permanent)=3 remaining=0
+2026-08-29 17:02:19.545 [Info   ] OnFormClosing | Application shutting down
+2026-08-29 17:02:19.692 [Info   ] CloseDevice | Device closed
+2026-08-29 17:02:28.344 [Info   ] TryAutoInitialize | Device connected successfully
+2026-08-29 17:02:43.324 [Warning] PushPunchToHris | dropped: Employee not linked in HRIS (imported=0)
+2026-08-29 17:03:00.434 [Warning] PushPunchToHris | dropped: Employee not linked in HRIS (imported=0)
+2026-08-29 17:24:49.021 [Info   ] OnFormClosing | Application shutting down
+2026-08-29 17:24:49.146 [Info   ] CloseDevice | Device closed
+2026-08-29 17:24:56.955 [Info   ] TryAutoInitialize | Device connected successfully
+2026-08-29 18:00:22.664 [Info   ] PushPunchToHris | pushed fingerprintId=1
+2026-08-29 18:31:32.390 [Info   ] PushPunchToHris | pushed fingerprintId=2
+2026-08-29 18:31:40.576 [Error  ] SDK | DefWndProc | DBIdentify | ret=-17 (UNKNOWN_-17)
+2026-08-29 18:32:56.874 [Info   ] OnFormClosing | Application shutting down
+2026-08-29 18:32:57.040 [Info   ] CloseDevice | Device closed
+2026-09-16 22:27:52.812 [Info   ] InitializeHrisIntegration | HRIS: configured (http://127.0.0.1:8000/api) | agent=AG-4bd887dad95734a83bc489
+2026-09-16 22:27:54.903 [Info   ] TryAutoInitialize | Device connected successfully
+2026-09-16 22:27:57.483 [Info   ] RegisterAgentAndFlush | agent registered
+2026-09-16 22:27:58.082 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:27:58.380 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:28:03.520 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:28:13.749 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:28:23.733 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:28:33.712 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:28:43.658 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:28:53.610 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:29:03.526 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:29:13.566 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:29:23.479 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:29:33.537 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:29:43.526 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:29:53.555 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:30:03.497 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:30:13.550 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:30:23.562 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:30:33.739 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:30:43.556 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:30:53.556 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:31:03.617 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:31:13.471 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:31:23.558 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:31:33.484 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:31:43.502 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:31:53.526 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:32:03.613 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:32:13.501 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:32:23.683 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:32:26.271 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:32:26.583 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:32:33.548 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:32:33.912 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:32:34.269 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:32:38.043 [Info   ] OnFormClosing | Application shutting down
+2026-09-16 22:32:38.398 [Info   ] RegisterAgentAndFlush | agent registered
+2026-09-16 22:32:38.473 [Info   ] CloseDevice | Device closed
+2026-09-16 22:32:45.821 [Info   ] InitializeHrisIntegration | HRIS: configured (http://127.0.0.1:8000/api) | agent=AG-4bd887dad95734a83bc489
+2026-09-16 22:32:46.621 [Info   ] RegisterAgentAndFlush | agent registered
+2026-09-16 22:32:47.355 [Info   ] TryAutoInitialize | Device connected successfully
+2026-09-16 22:32:49.695 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:32:50.015 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:32:56.570 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:33:06.633 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:33:16.488 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:33:26.595 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:33:36.565 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:33:46.685 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:33:56.493 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:34:06.492 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:34:16.540 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:34:26.553 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:34:36.473 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:34:46.626 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:34:56.484 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:35:06.513 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:35:16.472 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:35:26.484 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:35:36.533 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:35:46.582 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:35:56.638 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:36:00.638 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:36:01.110 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:36:06.618 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:36:16.725 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:36:26.584 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:36:36.613 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:36:46.642 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:36:56.590 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:37:06.611 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:37:16.603 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:37:26.576 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:37:36.548 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:37:46.763 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:37:56.557 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:38:06.612 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:38:16.576 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:38:26.654 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:38:36.622 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:38:46.653 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:38:56.633 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:39:06.582 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:39:16.622 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:39:26.701 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:39:36.702 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:39:46.604 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:39:56.660 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:40:06.675 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:40:16.609 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:40:26.699 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:40:36.718 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:40:46.546 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:40:56.587 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:41:06.747 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:41:16.646 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:41:26.635 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:41:36.562 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:41:46.709 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:41:56.601 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:42:06.689 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:42:16.613 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:42:26.577 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:42:36.589 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:42:46.621 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:42:56.649 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:43:06.769 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:43:16.670 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:43:26.604 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:43:36.619 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:43:46.545 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:43:56.570 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:44:06.597 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:44:16.534 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:44:26.670 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:44:36.598 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:44:46.612 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:44:56.598 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:45:06.560 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:45:16.600 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:45:26.652 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:45:36.641 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:45:46.574 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:45:56.566 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:46:06.541 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:46:16.594 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:46:26.594 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:46:36.573 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:46:46.556 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:46:56.668 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:47:06.610 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:47:16.684 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:47:26.561 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:47:36.904 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:47:46.573 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:47:56.741 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:48:06.729 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:48:16.563 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:48:26.699 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:48:34.362 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:48:44.367 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:48:54.246 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:49:04.324 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:49:14.234 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:49:24.161 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:49:32.002 [Info   ] OnFormClosing | Application shutting down
+2026-09-16 22:49:32.370 [Info   ] RegisterAgentAndFlush | agent registered
+2026-09-16 22:49:32.570 [Info   ] CloseDevice | Device closed
+2026-09-16 22:54:35.273 [Info   ] InitializeHrisIntegration | HRIS: configured (http://127.0.0.1:8000/api) | agent=AG-4bd887dad95734a83bc489
+2026-09-16 22:54:36.192 [Info   ] RegisterAgentAndFlush | agent registered
+2026-09-16 22:54:36.786 [Info   ] TryAutoInitialize | Device connected successfully
+2026-09-16 22:54:40.570 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:54:40.844 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:54:45.967 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:54:48.564 [Info   ] OnFormClosing | Application shutting down
+2026-09-16 22:54:48.897 [Info   ] RegisterAgentAndFlush | agent registered
+2026-09-16 22:54:49.091 [Info   ] CloseDevice | Device closed
+2026-09-16 22:55:02.126 [Info   ] InitializeHrisIntegration | HRIS: configured (http://127.0.0.1:8000/api) | agent=AG-4bd887dad95734a83bc489
+2026-09-16 22:55:03.011 [Info   ] RegisterAgentAndFlush | agent registered
+2026-09-16 22:55:03.594 [Info   ] TryAutoInitialize | Device connected successfully
+2026-09-16 22:55:06.041 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:55:06.392 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:55:13.110 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:55:22.842 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:55:32.832 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:55:42.750 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:55:52.872 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:56:02.850 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:56:12.909 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:56:22.923 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:56:32.895 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:56:43.031 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:56:52.915 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:57:03.043 [Warning] RefreshEmployeesFromHris | empty list
+2026-09-16 22:57:37.050 [Info   ] InitializeHrisIntegration | HRIS: configured (http://127.0.0.1:8000/api) | agent=AG-4bd887dad95734a83bc489
+2026-09-16 22:57:37.848 [Info   ] RegisterAgentAndFlush | agent registered
+2026-09-16 22:57:38.583 [Info   ] TryAutoInitialize | Device connected successfully
+2026-09-16 22:57:41.759 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 22:57:42.071 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 22:57:47.819 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 22:57:57.825 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 22:58:08.374 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 22:58:18.149 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 22:58:27.768 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 22:58:37.803 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 22:58:47.809 [Info   ] RefreshEmployeesFromHris | cached 10 employees
+2026-09-16 22:58:57.900 [Info   ] RefreshEmployeesFromHris | cached 10 employees
+2026-09-16 22:59:07.775 [Info   ] RefreshEmployeesFromHris | cached 10 employees
+2026-09-16 22:59:17.813 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 22:59:28.680 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 22:59:37.831 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 22:59:47.782 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 22:59:57.999 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:00:07.762 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:00:17.753 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:00:27.700 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:00:37.742 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:00:47.976 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:00:58.025 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:01:07.995 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:01:17.995 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:01:27.870 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:01:37.850 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:01:47.973 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:01:57.902 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:02:08.556 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:02:17.903 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:02:27.972 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:02:37.808 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:02:47.804 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:02:57.928 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:03:08.075 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:03:17.937 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:03:27.889 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:03:37.782 [Info   ] RefreshEmployeesFromHris | cached 9 employees
+2026-09-16 23:05:27.051 [Info   ] InitializeHrisIntegration | HRIS: configured (http://127.0.0.1:8000/api) | agent=AG-4bd887dad95734a83bc489
+2026-09-16 23:05:28.022 [Info   ] RegisterAgentAndFlush | agent registered
+2026-09-16 23:05:28.557 [Info   ] TryAutoInitialize | Device connected successfully
+2026-09-16 23:05:31.779 [Info   ] RefreshEmployeesFromHris | fetched 9 employees
+2026-09-16 23:05:31.797 [Info   ] ApplyEmployeeSync | removed inactive employee T-0004
+2026-09-16 23:05:32.088 [Info   ] RefreshEmployeesFromHris | fetched 9 employees
+2026-09-16 23:05:37.827 [Info   ] RefreshEmployeesFromHris | fetched 9 employees
+2026-09-16 23:05:48.722 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:05:48.723 [Info   ] ApplyEmployeeSync | removed inactive employee T-0003
+2026-09-16 23:05:57.882 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:06:07.739 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:06:17.883 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:06:27.841 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:06:37.896 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:06:47.841 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:06:57.933 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:07:07.804 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:07:17.778 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:07:27.780 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:07:38.215 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:07:47.877 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:07:57.763 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:08:07.945 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:08:18.047 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:08:28.064 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:08:37.952 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:08:47.861 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:08:57.961 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:09:07.870 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:09:17.862 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:09:27.991 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:09:38.135 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:09:48.018 [Info   ] RefreshEmployeesFromHris | fetched 9 employees
+2026-09-16 23:09:57.995 [Info   ] RefreshEmployeesFromHris | fetched 9 employees
+2026-09-16 23:10:08.136 [Info   ] RefreshEmployeesFromHris | fetched 9 employees
+2026-09-16 23:10:17.987 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:10:17.993 [Info   ] ApplyEmployeeSync | removed inactive employee N-0001
+2026-09-16 23:10:28.120 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:10:38.168 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:10:47.843 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:10:57.843 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:11:07.987 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:11:17.854 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:11:27.862 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:11:37.721 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:11:48.066 [Info   ] RefreshEmployeesFromHris | fetched 8 employees
+2026-09-16 23:11:54.596 [Info   ] OnFormClosing | Application shutting down
+2026-09-16 23:11:54.954 [Info   ] RegisterAgentAndFlush | agent registered
+2026-09-16 23:11:55.953 [Info   ] CloseDevice | Device closed
+2026-09-19 13:18:59.518 [Info   ] InitializeHrisIntegration | HRIS: configured (http://127.0.0.1:8000/api) | agent=AG-4bd887dad95734a83bc489
+2026-09-19 13:19:01.302 [Info   ] TryAutoInitialize | Device connected successfully
+2026-09-19 13:19:02.037 [Warning] RegisterAgentAndFlush | register failed: Unable to connect to the remote server
+2026-09-19 13:19:15.696 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:19:25.662 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:19:35.644 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:19:41.545 [Warning] PushPunchToHris | queued att-1 (Unable to connect to the remote server)
+2026-09-19 13:19:45.846 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:19:45.876 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:19:47.697 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:19:47.707 [Warning] FlushPendingQueue | push failed (Unable to connect to the remote server), 1 queued
+2026-09-19 13:19:55.587 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:19:55.590 [Warning] FlushPendingQueue | push failed (Unable to connect to the remote server), 1 queued
+2026-09-19 13:20:05.603 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:20:05.619 [Warning] FlushPendingQueue | push failed (Unable to connect to the remote server), 1 queued
+2026-09-19 13:20:15.594 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:20:15.595 [Warning] FlushPendingQueue | push failed (Unable to connect to the remote server), 1 queued
+2026-09-19 13:20:25.627 [Warning] FlushPendingQueue | push failed (Unable to connect to the remote server), 1 queued
+2026-09-19 13:20:25.641 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:20:35.679 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:20:35.681 [Warning] FlushPendingQueue | push failed (Unable to connect to the remote server), 1 queued
+2026-09-19 13:20:45.644 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:20:45.645 [Warning] FlushPendingQueue | push failed (Unable to connect to the remote server), 1 queued
+2026-09-19 13:20:55.659 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:20:55.677 [Warning] FlushPendingQueue | push failed (Unable to connect to the remote server), 1 queued
+2026-09-19 13:21:05.641 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:21:05.643 [Warning] FlushPendingQueue | push failed (Unable to connect to the remote server), 1 queued
+2026-09-19 13:21:15.630 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:21:15.641 [Warning] FlushPendingQueue | dropped 1 punch(es) after 10 failed attempts
+2026-09-19 13:21:15.641 [Warning] FlushPendingQueue | push failed (Unable to connect to the remote server), 1 queued
+2026-09-19 13:21:25.674 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:21:35.669 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:21:45.635 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:21:55.677 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:22:05.675 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:22:15.675 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:22:25.657 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:22:34.805 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:22:34.808 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:22:35.657 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:22:45.672 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:22:55.708 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:23:05.707 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:23:15.688 [Info   ] OnFormClosing | Application shutting down
+2026-09-19 13:23:15.710 [Warning] RefreshEmployeesFromHris | Unable to connect to the remote server
+2026-09-19 13:23:17.737 [Warning] RegisterAgentAndFlush | register failed: Unable to connect to the remote server
+2026-09-19 13:23:17.941 [Info   ] CloseDevice | Device closed
+2026-09-19 13:23:36.491 [Info   ] InitializeHrisIntegration | HRIS: configured (http://http://192.168.1.10:8000/api) | agent=AG-4bd887dad95734a83bc489
+2026-09-19 13:23:37.893 [Info   ] TryAutoInitialize | Device connected successfully
+2026-09-19 13:23:39.263 [Warning] RegisterAgentAndFlush | register failed: The remote name could not be resolved: 'http'
+2026-09-19 13:23:42.496 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:23:42.498 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:23:53.711 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:24:03.774 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:24:13.772 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:24:23.771 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:24:33.740 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:24:43.763 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:24:53.740 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:25:03.762 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:25:13.722 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:25:23.745 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:25:33.769 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:25:43.741 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:25:53.739 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:26:03.738 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:26:13.726 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:26:23.736 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:26:33.718 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:26:43.763 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:26:53.776 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:27:03.776 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:27:13.759 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:27:23.774 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:27:33.768 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:27:43.759 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:27:53.749 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:28:03.727 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:28:13.787 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:28:23.753 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:28:33.789 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:28:43.744 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:28:53.760 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:29:03.729 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:29:13.755 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:29:23.746 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:29:33.772 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:29:43.776 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:29:44.536 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:29:46.066 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:29:53.333 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:30:03.768 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:30:13.739 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:30:23.777 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:30:33.775 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:30:43.746 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:30:53.734 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:31:03.750 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:31:13.739 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:31:23.743 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:31:33.764 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:31:43.758 [Warning] RefreshEmployeesFromHris | The remote name could not be resolved: 'http'
+2026-09-19 13:31:50.901 [Info   ] OnFormClosing | Application shutting down
+2026-09-19 13:31:53.198 [Warning] RegisterAgentAndFlush | register failed: The remote name could not be resolved: 'http'
+2026-09-19 13:31:53.389 [Info   ] CloseDevice | Device closed
+2026-09-19 13:32:00.688 [Info   ] InitializeHrisIntegration | HRIS: configured (http://192.168.1.10:8000/api) | agent=AG-4bd887dad95734a83bc489
+2026-09-19 13:32:01.503 [Info   ] RegisterAgentAndFlush | agent registered
+2026-09-19 13:32:02.124 [Info   ] TryAutoInitialize | Device connected successfully
+2026-09-19 13:32:04.162 [Info   ] RefreshEmployeesFromHris | fetched 9 employees
+2026-09-19 13:32:04.169 [Info   ] ApplyEmployeeSync | removed inactive employee BSE-0001
+2026-09-19 13:32:04.489 [Info   ] RefreshEmployeesFromHris | fetched 9 employees
+2026-09-19 13:32:11.392 [Info   ] RefreshEmployeesFromHris | fetched 9 employees
+2026-09-19 13:32:21.605 [Info   ] RefreshEmployeesFromHris | fetched 9 employees
+2026-09-19 13:32:31.609 [Info   ] RefreshEmployeesFromHris | fetched 9 employees
+2026-09-19 13:32:41.424 [Info   ] RefreshEmployeesFromHris | fetched 9 employees
+2026-09-19 13:32:51.497 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:33:01.595 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:33:11.440 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:33:21.480 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:33:32.149 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:33:41.416 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:33:51.461 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:34:01.425 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:34:11.560 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:34:21.505 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:34:31.602 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:34:41.440 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:34:51.456 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:35:01.551 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:35:11.475 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:35:21.395 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:35:31.533 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:35:41.484 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:35:51.420 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:36:01.405 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:36:11.506 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:36:21.424 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:36:31.492 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:36:41.456 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:36:51.557 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:37:01.431 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:37:11.400 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:37:21.536 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:37:31.460 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:37:41.388 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:37:51.389 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:38:01.383 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:38:11.446 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:38:21.424 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:38:31.472 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:38:41.579 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:38:51.445 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:39:01.435 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:39:11.417 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:39:21.453 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:39:31.563 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:39:41.433 [Info   ] RefreshEmployeesFromHris | fetched 10 employees
+2026-09-19 13:39:51.476 [Info   ] RefreshEmployeesFromHris | fetched 10 employees

@@ -1,0 +1,22 @@
+C:\Users\Ryzen\source\repos\fingerprint\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\C#\Demo2\bin\Debug\Demo.exe
+C:\Users\Ryzen\source\repos\fingerprint\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\C#\Demo2\bin\Debug\Demo.pdb
+C:\Users\Ryzen\source\repos\fingerprint\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\C#\Demo2\bin\Debug\libzkfpcsharp.dll
+C:\Users\Ryzen\source\repos\fingerprint\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\C#\Demo2\obj\Debug\Demo.Form1.resources
+C:\Users\Ryzen\source\repos\fingerprint\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\C#\Demo2\obj\Debug\Demo.Properties.Resources.resources
+C:\Users\Ryzen\source\repos\fingerprint\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\C#\Demo2\obj\Debug\Demo2.csproj.GenerateResource.cache
+C:\Users\Ryzen\source\repos\fingerprint\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\C#\Demo2\obj\Debug\Demo.exe
+C:\Users\Ryzen\source\repos\fingerprint\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\C#\Demo2\obj\Debug\Demo.pdb
+C:\Users\Ryzen\source\repos\fingerprint\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\C#\Demo2\obj\Debug\Demo2.csproj.AssemblyReference.cache
+C:\Users\Ryzen\source\repos\fingerprint\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\C#\Demo2\obj\Debug\Demo2.csproj.CoreCompileInputs.cache
+C:\Users\Ryzen\source\repos\fingerprint\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\C#\Demo2\obj\Debug\Demo2.csproj.Up2Date
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\C#\Demo2\bin\Debug\Demo.exe
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\C#\Demo2\bin\Debug\Demo.pdb
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\C#\Demo2\bin\Debug\libzkfpcsharp.dll
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\C#\Demo2\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\C#\Demo2\obj\Debug\Demo.Form1.resources
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\C#\Demo2\obj\Debug\Demo.Properties.Resources.resources
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\C#\Demo2\obj\Debug\Demo2.csproj.GenerateResource.Cache
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\C#\Demo2\obj\Debug\Demo.exe
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\C#\Demo2\obj\Debug\Demo.pdb
+C:\Users\Ryzen\AppData\Local\Temp\opencode\capbuild\Demo.exe
+C:\Users\Ryzen\AppData\Local\Temp\opencode\capbuild\Demo.pdb

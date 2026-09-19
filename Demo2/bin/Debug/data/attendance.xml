@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ArrayOfAttendanceRecord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <AttendanceRecord>
+    <AttendanceID>1</AttendanceID>
+    <EmployeeID>BSCS-0002</EmployeeID>
+    <DateTime>2026-09-19T13:19:39.4571984+08:00</DateTime>
+    <Action>Time In</Action>
+  </AttendanceRecord>
+</ArrayOfAttendanceRecord>
