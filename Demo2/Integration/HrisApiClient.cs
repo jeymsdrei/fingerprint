@@ -13,6 +13,7 @@ namespace Demo.Integration
         public string punch_time { get; set; }
         public string source_key { get; set; }
         public string action { get; set; }
+        public int? score { get; set; }
     }
 
     public class HrisResponse
@@ -22,6 +23,9 @@ namespace Demo.Integration
         public bool Registered { get; set; }
         public int? FingerprintId { get; set; }
         public string Error { get; set; }
+        // Opaque employee-list change token from the server heartbeat. When it
+        // differs from the last one we applied, the full list must be re-pulled.
+        public string SyncVersion { get; set; }
     }
 
     /// <summary>
@@ -60,14 +64,35 @@ namespace Demo.Integration
             return Post("device/register", body, out error);
         }
 
-        public bool Heartbeat(string agentId, out string error)
+        public HrisResponse Heartbeat(string agentId)
         {
-            var body = new Dictionary<string, object>
+            var resp = new HrisResponse();
+            try
             {
-                { "token", _token },
-                { "agent_id", agentId },
-            };
-            return Post("device/heartbeat", body, out error);
+                var body = new Dictionary<string, object>
+                {
+                    { "token", _token },
+                    { "agent_id", agentId },
+                };
+                string responseText = Request("device/heartbeat", body, "POST");
+                var parsed = _json.Deserialize<Dictionary<string, object>>(responseText);
+                resp.Ok = true;
+                resp.Registered = ConvertToBool(Get(parsed, "registered"));
+                resp.SyncVersion = Convert.ToString(Get(parsed, "sync_version"));
+                return resp;
+            }
+            catch (WebException ex)
+            {
+                resp.Ok = false;
+                resp.Error = Describe(ex);
+                return resp;
+            }
+            catch (Exception ex)
+            {
+                resp.Ok = false;
+                resp.Error = ex.Message;
+                return resp;
+            }
         }
 
         public HrisResponse Push(string agentId, List<HrisPushRecord> records)
@@ -140,6 +165,30 @@ namespace Demo.Integration
             }
         }
 
+        public List<Data.Employee> MapEmployees(List<Dictionary<string, object>> employees)
+        {
+            var result = new List<Data.Employee>();
+            if (employees == null)
+                return result;
+            foreach (Dictionary<string, object> dict in employees)
+            {
+                if (dict == null)
+                    continue;
+                result.Add(new Data.Employee
+                {
+                    EmployeeID = Convert.ToString(Get(dict, "employee_id")),
+                    FirstName = Convert.ToString(Get(dict, "first_name")),
+                    MiddleName = Convert.ToString(Get(dict, "middle_name")),
+                    LastName = Convert.ToString(Get(dict, "last_name")),
+                    Department = Convert.ToString(Get(dict, "department")),
+                    Position = Convert.ToString(Get(dict, "position")),
+                    PhotoPath = Convert.ToString(Get(dict, "photo_path")),
+                    PhotoData = Convert.ToString(Get(dict, "photo_data")),
+                });
+            }
+            return result;
+        }
+
         public HrisResponse AssignFingerprint(string employeeId)
         {
             var resp = new HrisResponse();
@@ -171,6 +220,74 @@ namespace Demo.Integration
                 resp.Error = ex.Message;
                 return resp;
             }
+        }
+
+        /// <summary>
+        /// Store an enrolled fingerprint template on the HRIS server so it can
+        /// be restored to the reader later without re-enrolling the employee.
+        /// </summary>
+        public bool SaveTemplate(int fingerprintId, string templateBase64, out string error)
+        {
+            error = null;
+            try
+            {
+                var body = new Dictionary<string, object>
+                {
+                    { "token", _token },
+                    { "fingerprint_id", fingerprintId },
+                    { "template_base64", templateBase64 },
+                };
+                string responseText = Request("device/template", body, "POST");
+                var parsed = _json.Deserialize<Dictionary<string, object>>(responseText);
+                if (parsed == null || !ConvertToBool(Get(parsed, "ok")))
+                {
+                    error = parsed == null ? "Empty response" : Convert.ToString(Get(parsed, "error"));
+                    return false;
+                }
+                return true;
+            }
+            catch (WebException ex)
+            {
+                error = Describe(ex);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Pull the enrolled templates for all active employees from the
+        /// server, for restoring onto a reader whose local copy was lost.
+        /// </summary>
+        public List<Data.FingerprintRecord> GetTemplates(out string error)
+        {
+            error = null;
+            List<Dictionary<string, object>> employees;
+            HrisResponse resp = GetEmployees(out employees);
+            if (!resp.Ok)
+            {
+                error = resp.Error;
+                return null;
+            }
+
+            var templates = new List<Data.FingerprintRecord>();
+            foreach (Dictionary<string, object> e in employees)
+            {
+                int fid = GetInt(e, "fingerprint_id") ?? 0;
+                string tpl = Convert.ToString(Get(e, "template_base64"));
+                if (fid <= 0 || string.IsNullOrEmpty(tpl))
+                    continue;
+                templates.Add(new Data.FingerprintRecord
+                {
+                    FingerprintID = fid,
+                    TemplateBase64 = tpl,
+                    RegisterDate = DateTime.Now,
+                });
+            }
+            return templates;
         }
 
         private bool Post(string endpoint, Dictionary<string, object> body, out string error)

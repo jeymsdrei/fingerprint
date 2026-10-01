@@ -1,15 +1,24 @@
 <?xml version="1.0"?>
 <ArrayOfAttendanceRecord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <AttendanceRecord>
-    <AttendanceID>1</AttendanceID>
-    <EmployeeID>BSCS-0002</EmployeeID>
-    <DateTime>2026-09-19T13:19:39.4571984+08:00</DateTime>
+    <AttendanceID>93</AttendanceID>
+    <EmployeeID>T-0002</EmployeeID>
+    <DateTime>2026-09-29T18:19:32.8531718+08:00</DateTime>
     <Action>Time In</Action>
+    <Score>638</Score>
   </AttendanceRecord>
   <AttendanceRecord>
-    <AttendanceID>2</AttendanceID>
-    <EmployeeID>T-0006</EmployeeID>
-    <DateTime>2026-09-19T14:55:17.7644147+08:00</DateTime>
+    <AttendanceID>94</AttendanceID>
+    <EmployeeID>T-0003</EmployeeID>
+    <DateTime>2026-09-29T18:51:14.5013203+08:00</DateTime>
     <Action>Time In</Action>
+    <Score>687</Score>
+  </AttendanceRecord>
+  <AttendanceRecord>
+    <AttendanceID>95</AttendanceID>
+    <EmployeeID>T-0003</EmployeeID>
+    <DateTime>2026-09-29T18:52:01.5282051+08:00</DateTime>
+    <Action>Time Out</Action>
+    <Score>617</Score>
   </AttendanceRecord>
 </ArrayOfAttendanceRecord>

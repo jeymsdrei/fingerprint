@@ -257,6 +257,7 @@
     <Compile Include="Data\FingerprintLogger.cs" />
     <Compile Include="Integration\HrisConfig.cs" />
     <Compile Include="Integration\HrisAgentIdentity.cs" />
+    <Compile Include="Integration\HrisEmployeeSyncState.cs" />
     <Compile Include="Integration\HrisApiClient.cs" />
     <Compile Include="Integration\PendingPushQueue.cs" />
 

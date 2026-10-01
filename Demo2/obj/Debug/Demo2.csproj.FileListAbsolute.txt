@@ -29,3 +29,14 @@ C:\Users\HP LAPTOP\fingerprint\Demo2\obj\Debug\Demo.Properties.Resources.resourc
 C:\Users\HP LAPTOP\fingerprint\Demo2\obj\Debug\Demo2.csproj.GenerateResource.Cache
 C:\Users\HP LAPTOP\fingerprint\Demo2\obj\Debug\Demo.exe
 C:\Users\HP LAPTOP\fingerprint\Demo2\obj\Debug\Demo.pdb
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\Debug\Demo.Form1.resources
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\Debug\Demo.Properties.Resources.resources
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\Debug\Demo2.csproj.GenerateResource.Cache
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\Debug\Demo.exe
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\Debug\Demo.pdb
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\bin\Debug\Demo.exe
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\bin\Debug\Demo.pdb
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\bin\Debug\libzkfpcsharp.dll
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\Debug\Demo2.csproj.AssemblyReference.cache
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\Debug\Demo2.csproj.CoreCompileInputs.cache
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\Debug\Demo2.csproj.Up2Date

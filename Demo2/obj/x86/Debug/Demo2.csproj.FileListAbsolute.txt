@@ -58,3 +58,13 @@ C:\Users\Ryzen\source\repos\hrisFingerprint2\ZKFingerSDK_Windows_Standard\ZKFing
 C:\Users\Ryzen\source\repos\hrisFingerprint2\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\Debug\Demo.exe
 C:\Users\Ryzen\source\repos\hrisFingerprint2\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\Debug\Demo.pdb
 C:\Users\Ryzen\source\repos\hrisFingerprint2\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\C#\Demo2\obj\x86\Debug\Demo2.csproj.Up2Date
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\Debug\Demo.exe
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\Debug\Demo.pdb
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\x86\Debug\Demo2.csproj.AssemblyReference.cache
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\x86\Debug\Demo.Form1.resources
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\x86\Debug\Demo.Properties.Resources.resources
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\x86\Debug\Demo2.csproj.GenerateResource.cache
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\x86\Debug\Demo2.csproj.CoreCompileInputs.cache
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\x86\Debug\Demo2.csproj.Up2Date
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\x86\Debug\Demo.exe
+C:\Users\Ryzen\Desktop\hrissystem-20260812T090006Z-1-001\hrissystem\system\fingerprint\Demo2\obj\x86\Debug\Demo.pdb

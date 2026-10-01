@@ -16,6 +16,7 @@ namespace Demo.Integration
         public DateTime PunchTime { get; set; }
         public string SourceKey { get; set; }
         public string Action { get; set; }
+        public int? Score { get; set; }
         public int Attempts { get; set; }
         public DateTime AddedAt { get; set; }
     }

@@ -44,11 +44,14 @@ namespace Demo
         const int MESSAGE_CAPTURED_OK = 0x0400 + 6;
 
         private Image _lastFpImage = null;
+        private System.Windows.Forms.PictureBox picFpPreview = null;
         private ToastNotification _toast;
         private bool _initializing = false;
         private DatabaseHelper _db;
         private bool _hasRegisteredFingerprints = false;
         private string _pendingAction = "Time In";
+        private string _lastPunchAction = null;
+        private bool _punchPromptActive = false;
         private bool _fpLoaded = false;
         private System.Windows.Forms.Timer timerReconnect;
         private ListBox lstEmployees;
@@ -59,6 +62,17 @@ namespace Demo
         private Label _lblHistoryEmpty;
 
         private int _enrollFid = 0;
+        private Employee _enrollTargetSnapshot;
+
+        // Serializes HRIS list fetches so two overlapping responses can never be
+        // applied out of order (a stale list must not reconcile after a newer one).
+        private int _hrisFetchInFlight = 0;
+
+        // Consecutive successful HRIS fetches in which a local employee was absent.
+        // A fingerprint is only destroyed after the employee stays missing past the
+        // threshold, so a transient/partial list cannot delete a live template.
+        private readonly Dictionary<string, int> _missingSyncCount = new Dictionary<string, int>();
+        private const int MISSING_BEFORE_REMOVE = 1;
 
         private HrisConfig _hrisConfig;
         private HrisApiClient _hrisApi;
@@ -67,8 +81,20 @@ namespace Demo
         private System.Windows.Forms.Timer timerHrisHeartbeat;
         private int _hrisSyncInProgress = 0;
 
+        // Last employee-list version lazily applied to the local store. The full list
+        // is only re-downloaded when the server's sync_version differs from this.
+        private string _syncedVersion;
+
+        // 1 while a deactivation/removal is still queued through its confirmation
+        // fetches (_missingSyncCount non-empty). Forces re-fetches even when the
+        // version token is unchanged, so staged removals can finish.
+        private int _stagedRemovalsFlag = 0;
+
         [DllImport("user32.dll", EntryPoint = "SendMessageA")]
         public static extern int SendMessage(IntPtr hwnd, int wMsg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("libzkfp.dll", EntryPoint = "ZKFPM_AddRegTemplateToDBCache")]
+        private static extern int AddRegTemplateToDBCache(IntPtr dbCache, uint fid, byte[] fpTemplate, uint cbTemplate);
 
         public Form1()
         {
@@ -189,42 +215,31 @@ namespace Demo
 
         private void DoCapture()
         {
+            // Scan exactly once per finger press. 'armed' starts true (allow a scan)
+            // and is only re-armed after the finger has been away for a couple of
+            // frames (~400 ms), so a finger held on the glass never re-identifies
+            // in a loop while the SDK keeps reporting a captured frame.
+            bool armed = true;
+            int awayFrames = 0;
             while (!bIsTimeToDie)
             {
                 cbCapTmp = 2048;
                 int ret = zkfp2.AcquireFingerprint(mDevHandle, FPBuffer, CapTmp, ref cbCapTmp);
                 if (ret == zkfp.ZKFP_ERR_OK)
                 {
-                    SendMessage(FormHandle, MESSAGE_CAPTURED_OK, IntPtr.Zero, IntPtr.Zero);
-                    // One finger press must produce exactly one capture. Without
-                    // waiting for the finger to be lifted, a single sustained
-                    // press fires several near-identical captures and DBMerge
-                    // produces an invalid template (DBAdd returns
-                    // ZKFP_ERR_INVALID_IMAGE / -13), so enrollment fails.
-                    WaitForFingerUp(10000);
+                    awayFrames = 0;
+                    if (armed)
+                    {
+                        armed = false;
+                        SendMessage(FormHandle, MESSAGE_CAPTURED_OK, IntPtr.Zero, IntPtr.Zero);
+                    }
                 }
                 else
                 {
-                    Thread.Sleep(200);
+                    awayFrames++;
+                    if (awayFrames >= 2) armed = true; // finger truly lifted -> next press may scan
                 }
-            }
-        }
-
-        // After an accepted capture, keep draining the sensor until the finger
-        // is removed (timeout guarded) so the next capture is a new scan.
-        private void WaitForFingerUp(int timeoutMs)
-        {
-            int start = Environment.TickCount;
-            while (!bIsTimeToDie)
-            {
-                cbCapTmp = 2048;
-                int ret = zkfp2.AcquireFingerprint(mDevHandle, FPBuffer, CapTmp, ref cbCapTmp);
-                // Any non-OK return means no usable image is on the sensor
-                // right now, i.e. the finger has been lifted (or the sensor
-                // timed out waiting for one).
-                if (ret != zkfp.ZKFP_ERR_OK) return;
-                if (Environment.TickCount - start > timeoutMs) return;
-                Thread.Sleep(100);
+                Thread.Sleep(200);
             }
         }
 
@@ -239,6 +254,8 @@ namespace Demo
                         Bitmap bmp = new Bitmap(ms);
                         this.picFPImg.Image = bmp;
                         _lastFpImage = bmp;
+                        if (picFpPreview != null)
+                            picFpPreview.Image = new Bitmap(bmp);
                         if (IsRegister)
                         {
                             int ret = zkfp.ZKFP_ERR_OK;
@@ -246,8 +263,22 @@ namespace Demo
                             ret = zkfp2.DBIdentify(mDBHandle, CapTmp, ref fid, ref score);
                             if (zkfp.ZKFP_ERR_OK == ret)
                             {
-                                textRes.Text = "This finger was already register by " + fid + "!";
-                                return;
+                                // Re-enrolling (e.g. after an orphaned template or a re-register):
+                                // allow it when the matched fid is OUR target fid or belongs to the
+                                // employee being enrolled — DBAdd below simply overwrites/rebinds it.
+                                // Block only when the same finger is already tied to ANOTHER employee.
+                                int targetFid = _enrollFid > 0 ? _enrollFid : iFid;
+                                Employee enrollTargetNow = _enrollTarget ?? _enrollTargetSnapshot;
+                                var existingOwner = _db.FindFingerprintByFid(fid);
+                                bool sameEmployee = enrollTargetNow != null && existingOwner != null &&
+                                                    existingOwner.EmployeeID == enrollTargetNow.EmployeeID;
+                                if (!sameEmployee && fid != targetFid)
+                                {
+                                    textRes.Text = "This finger was already register by " + fid + "!";
+                                    return;
+                                }
+                                FingerprintLogger.Info("Enroll | re-registering finger already at fid " + fid + " (target " + targetFid + ") for " +
+                                                       (enrollTargetNow == null ? "?" : enrollTargetNow.EmployeeID));
                             }
                             if (RegisterCount > 0 && zkfp2.DBMatch(mDBHandle, CapTmp, RegTmps[RegisterCount - 1]) <= 0)
                             {
@@ -268,39 +299,42 @@ namespace Demo
                                 if (zkfp.ZKFP_ERR_OK == mergeRet)
                                 {
                                     int deviceFid = _enrollFid > 0 ? _enrollFid : iFid;
-
-                                    // The HRIS may hand out an fid already claimed
-                                    // by another employee's saved template (loaded
-                                    // into the device DB at startup), which makes
-                                    // DBAdd fail. Fall back to the next free local
-                                    // slot in that case.
-                                    FingerprintRecord takenFid = _db.FindFingerprintByFid(deviceFid);
-                                    if (takenFid != null && _enrollTarget != null
-                                        && takenFid.EmployeeID != _enrollTarget.EmployeeID)
+                                    var owner = _db.Fingerprints.FirstOrDefault(fp => fp.FingerprintID == deviceFid);
+                                    Employee enrollTarget = _enrollTarget ?? _enrollTargetSnapshot;
+                                    if (owner != null && enrollTarget != null && owner.EmployeeID != enrollTarget.EmployeeID)
                                     {
-                                        int newFid = _db.GetNextFingerprintId();
-                                        FingerprintLogger.Warning("DefWndProc | fid " + deviceFid + " already used by " + takenFid.EmployeeID + "; using local slot " + newFid);
-                                        deviceFid = newFid;
+                                        deviceFid = _db.GetNextFingerprintId();
+                                        FingerprintLogger.Info("Enroll | fid overridden to " + deviceFid + " (HRIS id " + (_enrollFid > 0 ? _enrollFid : iFid) + " collides with " + owner.EmployeeID + ")");
                                     }
-
-                                    int addRet = zkfp2.DBAdd(mDBHandle, deviceFid, RegTmp);
-                                    if (addRet != zkfp.ZKFP_ERR_OK && _db.FindFingerprintByFid(deviceFid) == null)
-                                    {
-                                        // Nothing in the local store claims this fid.
-                                        // If the device DB still holds it, it is an
-                                        // orphan from an interrupted registration -
-                                        // remove it and retry once.
-                                        FingerprintLogger.Warning("DefWndProc | DBAdd fid=" + deviceFid + " ret=" + addRet + "; removing possible orphan and retrying");
-                                        zkfp2.DBDel(mDBHandle, deviceFid);
-                                        addRet = zkfp2.DBAdd(mDBHandle, deviceFid, RegTmp);
-                                    }
+                                    int origDeclared = (RegTmp[8] << 8) | RegTmp[9];
+                                    RegTmp[8] = (byte)(cbRegTmp >> 8);
+                                    RegTmp[9] = (byte)(cbRegTmp & 0xFF);
+                                    int addRet = AddRegTemplateToDBCache(mDBHandle, (uint)deviceFid, RegTmp, (uint)cbRegTmp);
                                     textRes.Text = "DBAdd ret=" + addRet + " fid=" + deviceFid;
+                                    FingerprintLogger.Info("Enroll | fid=" + deviceFid + " len=" + cbRegTmp + " origDeclared=" + origDeclared + " head=" + BitConverter.ToString(RegTmp, 0, 16) + " addRet=" + addRet);
                                     if (zkfp.ZKFP_ERR_OK == addRet)
                                     {
-                                        textRes.Text = "enroll succ fid=" + deviceFid;
-                                        SaveFingerprintToDB(deviceFid);
-                                        iFid = _db.GetNextFingerprintId();
-                                        ResetRegistrationForm();
+                                        int savedFid = deviceFid;
+                                        iFid++;
+                                        textRes.Text = "enroll succ fid=" + savedFid;
+                                        if (SaveFingerprintToDB(savedFid))
+                                        {
+                                            FingerprintLogger.Info("Enroll | saved fid=" + savedFid + " employee=" +
+                                                                   (enrollTarget == null ? "?" : enrollTarget.EmployeeID) +
+                                                                   " total=" + _db.FingerprintCount);
+                                            PushTemplateToHris(savedFid);
+                                            ResetRegistrationForm();
+                                        }
+                                        else
+                                        {
+                                            FingerprintLogger.Warning("Enroll | DB add ok but local save failed for fid=" + savedFid + "; device template rolled back");
+                                            textRes.Text = "enroll fail: template not saved to local DB (fid " + savedFid + ")";
+                                            FingerprintLogger.Info("Enroll | details target=" +
+                                                                   (_enrollTarget == null ? "null" : _enrollTarget.EmployeeID) +
+                                                                   " snapshot=" +
+                                                                   (_enrollTargetSnapshot == null ? "null" : _enrollTargetSnapshot.EmployeeID) +
+                                                                   " enrollFid=" + _enrollFid);
+                                        }
                                     }
                                     else
                                     {
@@ -335,14 +369,26 @@ namespace Demo
                                 ret = zkfp2.DBIdentify(mDBHandle, CapTmp, ref fid, ref score);
                                 if (zkfp.ZKFP_ERR_OK == ret)
                                 {
-                                    textRes.Text = "Identify succ, fid= " + fid + ",score=" + score + "!";
-                                    ProcessAttendance(fid);
+                                    textRes.Text = "Verified";
+                                    FingerprintLogger.Info("Identify | fid=" + fid + " score=" + score);
+                                    if (score < BIOMETRIC_MIN_SCORE)
+                                    {
+                                        // Weak match: do not turn it into an attendance
+                                        // record (someone else's/similar finger, or a
+                                        // bad press). Ask for a clean rescan.
+                                        FingerprintLogger.Warning(
+                                            "Identify | score " + score + " below min " + BIOMETRIC_MIN_SCORE
+                                            + " for fid " + fid + " - punch refused");
+                                        textRes.Text = "Scan not clear, try again";
+                                        return;
+                                    }
+                                    ProcessAttendance(fid, score);
                                     return;
                                 }
                                 else
                                 {
                                     FingerprintLogger.SdkError("DefWndProc | DBIdentify", ret);
-                                    textRes.Text = "Identify fail, ret= " + ret;
+                                    textRes.Text = "Fingerprint not recognized - try again";
                                     return;
                                 }
                             }
@@ -378,6 +424,12 @@ namespace Demo
             picFPImg.Location = new Point(60, 60);
             picFPImg.Size = new Size(200, 240);
             picFPImg.Visible = true;
+            picFpPreview = new System.Windows.Forms.PictureBox();
+            picFpPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            picFpPreview.Location = new Point(8, 8);
+            picFpPreview.Size = new Size(144, 144);
+            picFpPreview.BackColor = System.Drawing.Color.Transparent;
+            pnlFpPreview.Controls.Add(picFpPreview);
             BeginInvoke(new MethodInvoker(() =>
             {
                 TryAutoInitialize();
@@ -398,6 +450,7 @@ namespace Demo
                 _hrisApi = new HrisApiClient(_hrisConfig.ApiBaseUrl, _hrisConfig.ApiToken);
                 _pendingQueue = new PendingPushQueue();
                 _pendingQueue.Load();
+                _syncedVersion = HrisEmployeeSyncState.Load();
 
                 timerHrisHeartbeat = new System.Windows.Forms.Timer();
                 timerHrisHeartbeat.Interval = Math.Max(10, _hrisConfig.HeartbeatIntervalSeconds) * 1000;
@@ -463,17 +516,34 @@ namespace Demo
             if (_hrisApi == null || !_hrisApi.IsConfigured) return;
             try
             {
-                string error;
-                bool ok = _hrisApi.Heartbeat(_agentId, out error);
-                if (!ok)
+                HrisResponse hb = _hrisApi.Heartbeat(_agentId);
+                if (!hb.Ok)
                 {
+                    string error = hb.Error;
                     // Server may have restarted and forgotten the agent — re-register.
                     _hrisApi.RegisterAgent(_agentId, "BioClock USB Agent", HrisAgentIdentity.ComputerName, _hrisConfig.ApiBaseUrl, out error);
+                    return;
                 }
 
-                // Every ping is a live sync: pull newly-added/-registered employees
-                // into the enrollment list and deliver any punches stored offline.
-                RefreshEmployeesFromHris();
+                // Fall back to the old refresh-every-tick behaviour while the server
+                // does not answer with a sync_version yet (safe rollout — upgrading
+                // either side first never loses a sync, at worst a few redundant ones).
+                if (string.IsNullOrEmpty(hb.SyncVersion))
+                {
+                    RefreshEmployeesFromHris();
+                    FlushPendingQueue();
+                    return;
+                }
+
+                // Event-driven employee sync: pull the full list only when the server
+                // signals a change (new/edited/deactivated employee) or a deactivation
+                // is still going through its confirmation fetches. When nothing changed
+                // this heartbeat stays silent — no employee fetch, no log spam.
+                bool changed = !string.Equals(hb.SyncVersion, _syncedVersion, StringComparison.Ordinal)
+                    || Interlocked.CompareExchange(ref _stagedRemovalsFlag, 0, 0) == 1;
+                if (changed) RefreshEmployeesFromHris(hb.SyncVersion);
+
+                // Deliver any punches stored offline while we were unreachable.
                 FlushPendingQueue();
             }
             catch (Exception ex)
@@ -501,6 +571,7 @@ namespace Demo
                     punch_time = record.DateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                     source_key = sourceKey,
                     action = NormalizeAction(record.Action),
+                    score = record.Score > 0 ? (int?)record.Score : null,
                 });
 
                 HrisResponse resp = _hrisApi.Push(_agentId, batch);
@@ -517,6 +588,7 @@ namespace Demo
                         PunchTime = record.DateTime,
                         SourceKey = sourceKey,
                         Action = record.Action,
+                        Score = record.Score > 0 ? (int?)record.Score : null,
                         Attempts = 0,
                         AddedAt = DateTime.Now,
                     });
@@ -545,6 +617,7 @@ namespace Demo
                         punch_time = p.PunchTime.ToString("yyyy-MM-dd HH:mm:ss"),
                         source_key = p.SourceKey,
                         action = NormalizeAction(p.Action),
+                        score = p.Score,
                     });
                 }
 
@@ -879,35 +952,41 @@ namespace Demo
 
         private void btnTimeIn_Click(object sender, EventArgs e)
         {
+            _pendingAction = "Time In";
             if (mDevHandle == IntPtr.Zero)
             {
                 _toast.Show("Connect device first", ToastNotification.ToastType.Warning);
                 return;
             }
-            if (cbRegTmp <= 0)
+            if (_db.FingerprintCount <= 0)
             {
                 _toast.Show("No fingerprints registered", ToastNotification.ToastType.Warning);
                 return;
             }
             bIdentify = true;
-            _pendingAction = "Time In";
+            _punchPromptActive = true;
+            _lastPunchAction = null;
+            textRes.Text = string.Empty; // stop any stale "Enrollment completed" state from re-appearing
             UpdateScannerState("Place your finger for Time In", ThemeManager.Primary);
         }
 
         private void btnTimeOut_Click(object sender, EventArgs e)
         {
+            _pendingAction = "Time Out";
             if (mDevHandle == IntPtr.Zero)
             {
                 _toast.Show("Connect device first", ToastNotification.ToastType.Warning);
                 return;
             }
-            if (cbRegTmp <= 0)
+            if (_db.FingerprintCount <= 0)
             {
                 _toast.Show("No fingerprints registered", ToastNotification.ToastType.Warning);
                 return;
             }
             bIdentify = true;
-            _pendingAction = "Time Out";
+            _punchPromptActive = true;
+            _lastPunchAction = null;
+            textRes.Text = string.Empty; // stop any stale "Enrollment completed" state from re-appearing
             UpdateScannerState("Place your finger for Time Out", ThemeManager.Primary);
         }
 
@@ -921,6 +1000,7 @@ namespace Demo
             fpScanner.ScannerState = ScannerState.Idle;
             picAttPhoto.Image = null;
             picFPImg.Image = null;
+            if (picFpPreview != null) picFpPreview.Image = null;
         }
 
         private void btnRegisterNew_Click(object sender, EventArgs e)
@@ -940,6 +1020,8 @@ namespace Demo
             // Ask the HRIS for a stable fingerprint id for this employee
             // (source of truth). Falls back to the local counter when offline.
             _enrollFid = ResolveHrisFingerprintId(_enrollTarget.EmployeeID);
+            // Snapshot the target so a later list reload can never orphan the save.
+            _enrollTargetSnapshot = _enrollTarget;
 
             IsRegister = true;
             RegisterCount = 0;
@@ -978,6 +1060,7 @@ namespace Demo
         private void ResetRegistrationForm()
         {
             _enrollTarget = null;
+            _enrollTargetSnapshot = null;
             _enrollFid = 0;
             if (lstEmployees != null) lstEmployees.SelectedIndex = -1;
             progressEnroll.Value = 0;
@@ -985,20 +1068,16 @@ namespace Demo
             lblQuality.Text = "Fingerprint Quality: Waiting...";
             IsRegister = false;
             RegisterCount = 0;
-            // Keep the "templates registered" flag valid after a successful
-            // enrollment, otherwise Time In / Time Out refuse to run until the
-            // app is restarted.
-            if (_db.FingerprintCount == 0) cbRegTmp = 0;
-            else if (cbRegTmp <= 0) cbRegTmp = 2048;
+            cbRegTmp = 0;
             LoadEmployeeChoices();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             IsRegister = false;
+            _enrollTargetSnapshot = null;
             RegisterCount = 0;
-            if (_db.FingerprintCount == 0) cbRegTmp = 0;
-            else if (cbRegTmp <= 0) cbRegTmp = 2048;
+            cbRegTmp = 0;
             progressEnroll.Value = 0;
             lblEnrollStep.Text = "Press finger 1 of 3";
             UpdateScannerState("Enrollment cancelled", Color.FromArgb(148, 163, 184));
@@ -1047,13 +1126,7 @@ namespace Demo
         private void LoadEmployeeChoices()
         {
             if (lstEmployees == null) return;
-
-            // Preserve the selected employee across list rebuilds. The HRIS
-            // heartbeat sync rebuilds this list every few seconds, which used
-            // to clear _enrollTarget mid-enrollment and made
-            // SaveFingerprintToDB skip the employee being registered.
-            string keepId = _enrollTarget != null ? _enrollTarget.EmployeeID : null;
-
+            _enrollTarget = null;
             _enrollChoices.Clear();
             lstEmployees.Items.Clear();
 
@@ -1062,20 +1135,6 @@ namespace Demo
                 if (_db.Fingerprints.Exists(f => f.EmployeeID == e.EmployeeID)) continue;
                 _enrollChoices.Add(e);
                 lstEmployees.Items.Add(FormatChoice(e));
-            }
-
-            _enrollTarget = null;
-            if (keepId != null)
-            {
-                for (int i = 0; i < _enrollChoices.Count; i++)
-                {
-                    if (_enrollChoices[i].EmployeeID == keepId)
-                    {
-                        _enrollTarget = _enrollChoices[i];
-                        lstEmployees.SelectedIndex = i;
-                        break;
-                    }
-                }
             }
 
             lblQuality.Text = _enrollChoices.Count + " employee(s) available for registration.";
@@ -1088,7 +1147,21 @@ namespace Demo
         /// </summary>
         private void RefreshEmployeesFromHris()
         {
+            RefreshEmployeesFromHris(null);
+        }
+
+        /// <summary>
+        /// Pull the HRIS active employee list into the local store. When syncVersion
+        /// is null this is a forced refresh (e.g. opening the register page). When a
+        /// version is supplied the last-applied version is only advanced after the
+        /// list was actually applied and no deactivation is still queued for removal.
+        /// </summary>
+        private void RefreshEmployeesFromHris(string syncVersion)
+        {
             if (_hrisApi == null || !_hrisApi.IsConfigured) return;
+            // No overlapping fetches: an overlapping call could complete later and have
+            // its (older) list applied after a newer one, deleting just-synced data.
+            if (Interlocked.Exchange(ref _hrisFetchInFlight, 1) == 1) return;
             System.Threading.ThreadPool.QueueUserWorkItem(delegate
             {
                 try
@@ -1113,12 +1186,25 @@ namespace Demo
 
                     // Apply the merge + reconciliation on the UI thread so the
                     // device DB, local XML stores and the listbox stay consistent.
-                    BeginInvoke(new MethodInvoker(delegate { ApplyEmployeeSync(employees, hrisIds); }));
+                    BeginInvoke(new MethodInvoker(delegate
+                    {
+                        if (ApplyEmployeeSync(employees, hrisIds)
+                            && !string.IsNullOrEmpty(syncVersion)
+                            && Interlocked.CompareExchange(ref _stagedRemovalsFlag, 0, 0) == 0)
+                        {
+                            _syncedVersion = syncVersion;
+                            HrisEmployeeSyncState.Save(syncVersion);
+                        }
+                    }));
                     FingerprintLogger.Info("RefreshEmployeesFromHris | fetched " + hrisIds.Count + " employees");
                 }
                 catch (Exception ex)
                 {
                     FingerprintLogger.Error("RefreshEmployeesFromHris", ex);
+                }
+                finally
+                {
+                    Interlocked.Exchange(ref _hrisFetchInFlight, 0);
                 }
             });
         }
@@ -1130,10 +1216,13 @@ namespace Demo
         /// from the device database so a removed employee can no longer clock in.
         /// Runs on the UI thread (device SDK + local stores are UI-thread owned).
         /// </summary>
-        private void ApplyEmployeeSync(
+        private bool ApplyEmployeeSync(
             List<System.Collections.Generic.Dictionary<string, object>> employees,
             HashSet<string> hrisIds)
         {
+            // Never reconcile the list mid-enrollment: it would destroy the UI state an
+            // in-flight enrollment depends on (and could DBDel a template being enrolled).
+            if (IsRegister) return false;
             try
             {
                 foreach (var entry in employees)
@@ -1149,6 +1238,10 @@ namespace Demo
                         LastName = GetString(entry, "last_name"),
                         Department = GetString(entry, "department"),
                         Position = GetString(entry, "position"),
+                        PhotoData = GetString(entry, "photo_data"),
+                        Schedules = ParseSchedules(entry),
+                        MakeUpClasses = ParseMakeUps(entry),
+                        IsTeaching = GetBool(entry, "is_teaching"),
                     };
 
                     Employee existing = _db.FindEmployeeById(employeeId);
@@ -1157,18 +1250,35 @@ namespace Demo
                         emp.Email = existing.Email;
                         emp.Phone = existing.Phone;
                         emp.PhotoPath = existing.PhotoPath;
+                        if (string.IsNullOrEmpty(emp.PhotoData))
+                            emp.PhotoData = existing.PhotoData;
                     }
 
                     _db.AddEmployee(emp);
                 }
 
-                // Employees present locally but absent from the HRIS active list
-                // were deleted/deactivated in the system — remove them together
-                // with their enrolled fingerprints.
+                // Employees locally present but absent from the HRIS active list may have
+                // been deleted/deactivated — but only destroy their fingerprints once the
+                // absence is stable. A transient or partial list (network hiccups, flapping
+                // server updates) must not purge a template that reappears moments later.
                 var toRemove = new List<Employee>();
                 foreach (Employee e in _db.Employees)
                 {
-                    if (!hrisIds.Contains(e.EmployeeID)) toRemove.Add(e);
+                    if (hrisIds.Contains(e.EmployeeID))
+                    {
+                        _missingSyncCount.Remove(e.EmployeeID);
+                        continue;
+                    }
+                    int missing;
+                    _missingSyncCount.TryGetValue(e.EmployeeID, out missing);
+                    missing++;
+                    if (missing <= MISSING_BEFORE_REMOVE)
+                    {
+                        _missingSyncCount[e.EmployeeID] = missing;
+                        continue;
+                    }
+                    _missingSyncCount.Remove(e.EmployeeID);
+                    toRemove.Add(e);
                 }
                 foreach (Employee e in toRemove)
                 {
@@ -1193,10 +1303,16 @@ namespace Demo
                 _db.SaveFingerprints();
                 LoadEmployeeChoices();
                 UpdateStats();
+
+                // Any employee still counted as missing is waiting for its removal
+                // confirmations — the heartbeat must keep re-fetching until it clears.
+                Interlocked.Exchange(ref _stagedRemovalsFlag, _missingSyncCount.Count > 0 ? 1 : 0);
+                return true;
             }
             catch (Exception ex)
             {
                 FingerprintLogger.Error("ApplyEmployeeSync", ex);
+                return false;
             }
         }
 
@@ -1206,6 +1322,91 @@ namespace Demo
             if (dict.TryGetValue(key, out value) && value != null)
                 return Convert.ToString(value);
             return null;
+        }
+
+        private static bool GetBool(System.Collections.Generic.Dictionary<string, object> dict, string key)
+        {
+            object value = Get(dict, key);
+            if (value == null) return false;
+            if (value is bool) return (bool)value;
+            string s = Convert.ToString(value);
+            return s != null && (s == "1" || s.Equals("true", StringComparison.OrdinalIgnoreCase));
+        }
+
+        private static object Get(System.Collections.Generic.Dictionary<string, object> dict, string key)
+        {
+            if (dict == null) return null;
+            object value;
+            return dict.TryGetValue(key, out value) ? value : null;
+        }
+
+        /// <summary>
+        /// Convert the server "make_up_classes" payload ([{date,start,end}, ...])
+        /// into date-specific punch windows. Null when the payload is absent.
+        /// </summary>
+        private static List<MakeUpSlot> ParseMakeUps(System.Collections.Generic.Dictionary<string, object> entry)
+        {
+            object raw = Get(entry, "make_up_classes");
+            if (raw == null) return null;
+            var list = raw as System.Collections.IList;
+            if (list == null) return new List<MakeUpSlot>();
+
+            var result = new List<MakeUpSlot>();
+            foreach (object item in list)
+            {
+                var d = item as System.Collections.Generic.Dictionary<string, object>;
+                if (d == null) continue;
+                string date = GetString(d, "date");
+                string start = GetString(d, "start");
+                string end = GetString(d, "end");
+                if (string.IsNullOrEmpty(date) || string.IsNullOrEmpty(start) || string.IsNullOrEmpty(end)) continue;
+                DateTime dt;
+                if (!DateTime.TryParse(date, out dt)) continue;
+                result.Add(new MakeUpSlot { Date = dt.Date, Start = start, End = end });
+            }
+            return result;
+        }
+
+        private static int? GetDictInt(System.Collections.Generic.Dictionary<string, object> dict, string key)
+        {
+            object value;
+            if (!dict.TryGetValue(key, out value) || value == null) return null;
+            try { return Convert.ToInt32(value); }
+            catch { return null; }
+        }
+
+        /// <summary>
+        /// Convert the server "schedule_days" payload ([{day, times:[{start,end}]}, ...])
+        /// into flat ScheduleSlot rows. Returns null when the payload is absent so the
+        /// machine keeps its legacy allow-all behaviour for servers that don't send it.
+        /// </summary>
+        private static List<ScheduleSlot> ParseSchedules(System.Collections.Generic.Dictionary<string, object> entry)
+        {
+            object raw = Get(entry, "schedule_days");
+            if (raw == null) return null;
+            var days = raw as System.Collections.IList;
+            if (days == null) return new List<ScheduleSlot>();
+
+            var result = new List<ScheduleSlot>();
+            foreach (object item in days)
+            {
+                var dayDict = item as System.Collections.Generic.Dictionary<string, object>;
+                if (dayDict == null) continue;
+                int? day = GetDictInt(dayDict, "day");
+                if (day == null) continue;
+                var times = Get(dayDict, "times") as System.Collections.IList;
+                if (times == null) continue;
+                foreach (object t in times)
+                {
+                    var tDict = t as System.Collections.Generic.Dictionary<string, object>;
+                    if (tDict == null) continue;
+                    string start = GetString(tDict, "start");
+                    string end = GetString(tDict, "end");
+                    if (string.IsNullOrEmpty(start) || string.IsNullOrEmpty(end)) continue;
+                    result.Add(new ScheduleSlot { Day = day.Value, Start = start, End = end });
+                }
+            }
+            return result;
         }
 
         private static string FormatChoice(Employee e)
@@ -1230,9 +1431,7 @@ namespace Demo
                 return;
             }
             _enrollTarget = _enrollChoices[idx];
-            // During an active enrollment (list restored by the HRIS heartbeat
-            // sync) do not clobber the step/quality labels the UI relies on.
-            if (IsRegister) return;
+            _enrollTargetSnapshot = _enrollTarget;
             lblEnrollStep.Text = "Selected: " + FullName(_enrollTarget);
             lblQuality.Text = "Click Register to enroll this employee's fingerprint.";
         }
@@ -1276,6 +1475,9 @@ namespace Demo
                 progressEnroll.Value = 100;
                 lblEnrollStep.Text = "Enrollment Successful!";
                 UpdateScannerState("Enrollment completed", ThemeManager.Success);
+                // One-shot: clear the marker so later ticks can't keep re-showing the
+                // green "Enrollment completed" state (e.g. while punching attendance).
+                textRes.Text = string.Empty;
                 return;
             }
 
@@ -1303,6 +1505,7 @@ namespace Demo
 
             if (string.IsNullOrEmpty(status) || status == "Open succ")
             {
+                if (_punchPromptActive) return; // keep the active Time In / Time Out prompt
                 if (fpScanner.ScannerState != ScannerState.Idle)
                 {
                     fpScanner.ScannerState = ScannerState.Idle;
@@ -1314,7 +1517,11 @@ namespace Demo
 
             if (status.Contains("succ") || status.Contains("Welcome"))
             {
-                UpdateScannerState("Verified", ThemeManager.Success);
+                if (_punchPromptActive) return;
+                string verifiedLabel = string.IsNullOrEmpty(_lastPunchAction)
+                    ? "Verified"
+                    : "Verified - " + _lastPunchAction;
+                UpdateScannerState(verifiedLabel, ThemeManager.Success);
                 if (!lblAttResult.Text.StartsWith("Time In") && !lblAttResult.Text.StartsWith("Time Out")
                     && !lblAttResult.Text.StartsWith("Already recorded"))
                 {
@@ -1364,8 +1571,23 @@ namespace Demo
             }
         }
 
-        private void ShowEmployeePhoto(string photoPath)
+        private void ShowEmployeePhoto(Employee emp)
         {
+            if (emp != null)
+            {
+                try
+                {
+                    Image photo = emp.GetPhotoImage();
+                    if (photo != null)
+                    {
+                        picAttPhoto.Image = photo;
+                        return;
+                    }
+                }
+                catch { }
+            }
+
+            string photoPath = emp == null ? null : emp.PhotoPath;
             if (!string.IsNullOrEmpty(photoPath) && File.Exists(photoPath))
             {
                 try { picAttPhoto.Image = Image.FromFile(photoPath); }
@@ -1377,47 +1599,89 @@ namespace Demo
             }
         }
 
-        private void SaveFingerprintToDB(int fid)
+        private bool SaveFingerprintToDB(int fid)
         {
-            Employee target = _enrollTarget;
+            Employee target = _enrollTarget ?? _enrollTargetSnapshot;
             if (target == null)
             {
-                FingerprintLogger.Warning("SaveFingerprintToDB | No employee selected; skipping save");
-                return;
+                FingerprintLogger.Warning("SaveFingerprintToDB | No employee selected; rollback device template fid=" + fid);
+                RollbackDeviceTemplate(fid);
+                return false;
             }
 
             string templateBase64 = zkfp2.BlobToBase64(RegTmp, cbRegTmp);
-
-            _db.AddFingerprint(new FingerprintRecord
+            try
             {
-                FingerprintID = fid,
-                EmployeeID = target.EmployeeID,
-                TemplateBase64 = templateBase64,
-                RegisterDate = DateTime.Now
-            });
+                _db.AddFingerprint(new FingerprintRecord
+                {
+                    FingerprintID = fid,
+                    EmployeeID = target.EmployeeID,
+                    TemplateBase64 = templateBase64,
+                    RegisterDate = DateTime.Now
+                });
 
-            Employee emp = new Employee
+                Employee emp = new Employee
+                {
+                    EmployeeID = target.EmployeeID,
+                    FirstName = target.FirstName,
+                    MiddleName = target.MiddleName,
+                    LastName = target.LastName,
+                    Department = target.Department,
+                    Position = target.Position,
+                    Email = target.Email,
+                    Phone = target.Phone,
+                    PhotoPath = target.PhotoPath
+                };
+
+                _db.AddEmployee(emp);
+                _db.SaveFingerprints();
+                _db.SaveEmployees();
+
+                _hasRegisteredFingerprints = true;
+                if (cbRegTmp <= 0) cbRegTmp = 2048;
+                UpdateStats();
+
+                _toast.Show("Fingerprint saved for " + FullName(emp), ToastNotification.ToastType.Success);
+                return true;
+            }
+            catch (Exception ex)
             {
-                EmployeeID = target.EmployeeID,
-                FirstName = target.FirstName,
-                MiddleName = target.MiddleName,
-                LastName = target.LastName,
-                Department = target.Department,
-                Position = target.Position,
-                Email = target.Email,
-                Phone = target.Phone,
-                PhotoPath = target.PhotoPath
-            };
+                FingerprintLogger.Error("SaveFingerprintToDB | local save failed for fid=" + fid, ex);
+                RollbackDeviceTemplate(fid);
+                return false;
+            }
+        }
 
-            _db.AddEmployee(emp);
-            _db.SaveFingerprints();
-            _db.SaveEmployees();
+        private void RollbackDeviceTemplate(int fid)
+        {
+            if (mDBHandle == IntPtr.Zero) return;
+            int delRet = zkfp2.DBDel(mDBHandle, fid);
+            if (delRet != zkfp.ZKFP_ERR_OK)
+                FingerprintLogger.SdkError("SaveFingerprintToDB | DBDel rollback fid=" + fid, delRet);
+        }
 
-            _hasRegisteredFingerprints = true;
-            if (cbRegTmp <= 0) cbRegTmp = 2048;
-            UpdateStats();
-
-            _toast.Show("Fingerprint saved for " + FullName(emp), ToastNotification.ToastType.Success);
+        private void PushTemplateToHris(int fid)
+        {
+            try
+            {
+                if (_hrisApi == null || !_hrisApi.IsConfigured) return;
+                string templateBase64 = zkfp2.BlobToBase64(RegTmp, cbRegTmp);
+                string pushError;
+                if (_hrisApi.SaveTemplate(fid, templateBase64, out pushError))
+                {
+                    FingerprintLogger.Info("Enroll | pushed template fid=" + fid + " to HRIS");
+                }
+                else
+                {
+                    // Local enrollment stays intact; the HRIS will show "No template"
+                    // until the server is reachable again.
+                    FingerprintLogger.Warning("Enroll | template push failed fid=" + fid + " (" + pushError + ")");
+                }
+            }
+            catch (Exception ex)
+            {
+                FingerprintLogger.Error("Enroll | template push", ex);
+            }
         }
 
         private void LoadFingerprintsFromDB()
@@ -1636,14 +1900,41 @@ namespace Demo
             }
         }
 
-        private void ProcessAttendance(int fid)
+        private void ProcessAttendance(int fid, int score)
         {
+            _punchPromptActive = false;
             var emp = _db.FindEmployeeByFingerprintId(fid);
             if (emp != null)
             {
+                int missingStrikes;
+                if (_missingSyncCount.TryGetValue(emp.EmployeeID, out missingStrikes) && missingStrikes > 0)
+                {
+                    // The HRIS no longer lists this employee as active (deactivated).
+                    // Refuse the punch while the fingerprint purge is finishing so a
+                    // deactivated employee can no longer clock in/out on the machine.
+                    _lastPunchAction = null;
+                    UpdateEmployeeInfo(emp);
+                    ShowEmployeePhoto(emp);
+                    lblAttResult.Text = "Employee deactivated - not recorded";
+                    lblAttResult.ForeColor = ThemeManager.Warning;
+                    return;
+                }
                 UpdateEmployeeInfo(emp);
-                ShowEmployeePhoto(emp.PhotoPath);
-                string action = _pendingAction;
+                ShowEmployeePhoto(emp);
+                string action;
+                string blockMessage;
+                if (!ResolvePunchAction(emp, DateTime.Now, out action, out blockMessage))
+                {
+                    // Auto punch resolution refused the scan (no schedule today /
+                    // too early / all schedule slots already recorded). Tell the
+                    // employee why and do NOT record it.
+                    _lastPunchAction = null;
+                    lblAttResult.Text = blockMessage;
+                    lblAttResult.ForeColor = ThemeManager.Warning;
+                    _toast.Show(blockMessage, ToastNotification.ToastType.Warning);
+                    return;
+                }
+                _lastPunchAction = action;
                 if (HasRecentAttendance(emp.EmployeeID, action, 20))
                 {
                     lblAttResult.Text = "Already recorded - " + action + " at " + DateTime.Now.ToString("HH:mm:ss");
@@ -1654,7 +1945,8 @@ namespace Demo
                 {
                     EmployeeID = emp.EmployeeID,
                     DateTime = DateTime.Now,
-                    Action = action
+                    Action = action,
+                    Score = score
                 };
                 _db.AddAttendance(record);
                 _db.SaveAttendance();
@@ -1666,12 +1958,239 @@ namespace Demo
             }
             else
             {
+                _lastPunchAction = null;
                 FingerprintLogger.Warning("ProcessAttendance | Employee #" + fid + " not found in DB");
                 lblAttName.Text = "Employee #" + fid + " (not registered in DB)";
                 picAttPhoto.Image = null;
                 lblAttResult.Text = "Verified";
                 lblAttResult.ForeColor = ThemeManager.Success;
             }
+        }
+
+        /// <summary>
+        /// Schedule-aware punch resolution.
+        ///
+        /// Time In is schedule-driven: one Time In per schedule window is allowed,
+        /// opening at the schedule start with a 5-minute early grace. A repeat
+        /// scan for a window that already has a Time In is refused (no auto
+        /// change-out). Time Out is only recorded when the employee actually
+        /// presses the Time Out button — never invented from a repeat scan.
+        ///
+        /// When the server sent no schedule data for this employee (legacy) the
+        /// machine keeps the old button-driven behaviour.
+        /// </summary>
+        private bool ResolvePunchAction(Employee emp, DateTime now, out string action, out string message)
+        {
+            action = null;
+            message = null;
+
+            List<ScheduleSlot> sched = emp.Schedules;
+            if (sched == null && emp.MakeUpClasses == null)
+            {
+                // Legacy: the server sent no schedule data, so a punch cannot be
+                // validated against a schedule - refuse it for all employees.
+                message = "Not recorded - no schedule today";
+                return false;
+            }
+
+            int day = (int)now.DayOfWeek; // 0=Sunday .. 6=Saturday, matches the HRIS
+            List<ScheduleSlot> today = new List<ScheduleSlot>();
+            if (sched != null)
+                foreach (ScheduleSlot s in sched)
+                    if (s.Day == day) today.Add(s);
+            // Make-up classes count for clock-in on any school day (Mon-Sat),
+            // on the exact date the make-up class was recorded for.
+            if (day >= 1 && day <= 6 && emp.MakeUpClasses != null)
+                foreach (MakeUpSlot m in emp.MakeUpClasses)
+                    if (m.Date == now.Date)
+                        today.Add(new ScheduleSlot { Day = day, Start = m.Start, End = m.End });
+            today.Sort(delegate(ScheduleSlot a, ScheduleSlot b)
+            {
+                int ma, mb;
+                return (TryParseHm(a.Start, out ma) ? ma : 0).CompareTo(TryParseHm(b.Start, out mb) ? mb : 0);
+            });
+
+            if (today.Count == 0)
+            {
+                message = "Not recorded - no schedule today";
+                return false;
+            }
+
+            int t = now.Hour * 60 + now.Minute;
+
+            // A punch is only recorded while a schedule window is actually in
+            // effect at the current time. Time Out needs an explicit button
+            // press and gets its own small grace after the window ends.
+            if (_pendingAction != null &&
+                _pendingAction.IndexOf("Out", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                int winOut = FindActiveWindow(t, today, true);
+                if (winOut < 0)
+                {
+                    message = "Not recorded - no active schedule right now";
+                    return false;
+                }
+                if (!HasActionForWindow(emp.EmployeeID, today, winOut, now.Date, "Time In"))
+                {
+                    message = "Not clocked in for this schedule";
+                    return false;
+                }
+                action = "Time Out";
+                return true;
+            }
+
+            int win = FindActiveWindow(t, today, false);
+            if (win < 0)
+            {
+                int nextStart = NextStartAfter(t, today);
+                if (nextStart >= 0)
+                {
+                    message = "Too early to clock in - scheduled at " + FormatMinutes(nextStart)
+                        + " (" + PUNCH_EARLY_GRACE_MINUTES + " minute early grace)";
+                }
+                else
+                {
+                    message = "Not recorded - no active schedule right now";
+                }
+                return false;
+            }
+
+            if (HasActionForWindow(emp.EmployeeID, today, win, now.Date, "Time In"))
+            {
+                if (!HasActionForWindow(emp.EmployeeID, today, win, now.Date, "Time Out"))
+                {
+                    message = "Already clocked in for this schedule - press Time Out to clock out";
+                    return false;
+                }
+                return AdvanceToNextWindow(emp, today, win, now, out action, out message);
+            }
+
+            action = "Time In";
+            return true;
+        }
+
+        /// <summary>
+        /// The schedule window actually in effect at a given minute: the last
+        /// window whose clock-in grace has opened AND whose end time (plus the
+        /// optional clock-out grace) has not passed yet. Returns -1 when no
+        /// window covers that moment (before the first class, in a gap between
+        /// classes, or after the last class has ended).
+        /// </summary>
+        private static int FindActiveWindow(int tMinutes, List<ScheduleSlot> windows, bool allowOutGrace)
+        {
+            for (int i = windows.Count - 1; i >= 0; i--)
+            {
+                int s, e;
+                if (!TryParseHm(windows[i].Start, out s)) continue;
+                if (!TryParseHm(windows[i].End, out e)) continue;
+                if (tMinutes < s - PUNCH_EARLY_GRACE_MINUTES) continue;
+                if (tMinutes <= e + (allowOutGrace ? TIMEOUT_GRACE_MINUTES : 0)) return i;
+            }
+            return -1;
+        }
+
+        /// <summary>
+        /// Start minute of the next schedule window that has not opened yet at
+        /// tMinutes (inclusive of its clock-in grace), or -1 when no future
+        /// window is coming.
+        /// </summary>
+        private static int NextStartAfter(int tMinutes, List<ScheduleSlot> windows)
+        {
+            foreach (ScheduleSlot w in windows)
+            {
+                int s;
+                if (!TryParseHm(w.Start, out s)) continue;
+                if (tMinutes < s - PUNCH_EARLY_GRACE_MINUTES) return s;
+            }
+            return -1;
+        }
+
+        /// <summary>
+        /// Move past a fully-recorded window to the next schedule window of the day.
+        /// The scan opens the next window as a Time In (2nd, 3rd... class) once its
+        /// grace opens, or Time Out if that window already has a clock-in.
+        /// </summary>
+        private bool AdvanceToNextWindow(Employee emp, List<ScheduleSlot> today, int from, DateTime now,
+            out string action, out string message)
+        {
+            action = null;
+            message = null;
+            int t = now.Hour * 60 + now.Minute;
+
+            for (int i = from + 1; i < today.Count; i++)
+            {
+                int s;
+                TryParseHm(today[i].Start, out s);
+                if (t < s - PUNCH_EARLY_GRACE_MINUTES)
+                {
+                    message = "Too early - next schedule at " + FormatMinutes(s)
+                        + " (" + PUNCH_EARLY_GRACE_MINUTES + " minute early grace)";
+                    return false;
+                }
+                if (FindActiveWindow(t, today, false) != i &&
+                    FindActiveWindow(t, today, true) != i) continue; // window already over
+                if (!HasActionForWindow(emp.EmployeeID, today, i, now.Date, "Time In"))
+                {
+                    action = "Time In"; // next schedule window -> its own clock-in
+                    return true;
+                }
+                if (!HasActionForWindow(emp.EmployeeID, today, i, now.Date, "Time Out"))
+                {
+                    action = "Time Out";
+                    return true;
+                }
+            }
+
+            message = "All scheduled time slots already recorded";
+            return false;
+        }
+
+        /// <summary>
+        /// True when a punch of the given action already exists inside the schedule
+        /// window at 'win' (a punch belongs to the window whose clock-in grace had
+        /// opened when it was made).
+        /// </summary>
+        private bool HasActionForWindow(string empId, List<ScheduleSlot> windows, int win, DateTime date, string action)
+        {
+            for (int i = _db.Attendance.Count - 1; i >= 0; i--)
+            {
+                var r = _db.Attendance[i];
+                if (r.EmployeeID != empId) continue;
+                if (r.Action != action) continue;
+                if (r.DateTime.Date != date.Date) continue;
+                if (FindActiveWindow(r.DateTime.Hour * 60 + r.DateTime.Minute, windows, true) == win)
+                    return true;
+            }
+            return false;
+        }
+
+        // Clock-in allowed this many minutes before the schedule start.
+        private const int PUNCH_EARLY_GRACE_MINUTES = 5;
+
+        // Clock-out grace after a schedule window ends (Time Out only).
+        private const int TIMEOUT_GRACE_MINUTES = 10;
+
+        // Fingerprint match confidence required to accept a scan as attendance.
+        // A successful identify below this score is treated as a failed press.
+        private const int BIOMETRIC_MIN_SCORE = 60;
+
+        private static bool TryParseHm(string hm, out int minutes)
+        {
+            minutes = 0;
+            if (string.IsNullOrEmpty(hm)) return false;
+            int sep = hm.IndexOf(':');
+            if (sep <= 0) return false;
+            int h, m;
+            if (!int.TryParse(hm.Substring(0, sep), out h)) return false;
+            if (!int.TryParse(hm.Substring(sep + 1), out m)) return false;
+            if (h < 0 || h > 23 || m < 0 || m > 59) return false;
+            minutes = h * 60 + m;
+            return true;
+        }
+
+        private static string FormatMinutes(int minutes)
+        {
+            return (minutes / 60).ToString("00") + ":" + (minutes % 60).ToString("00");
         }
 
         private bool HasRecentAttendance(string employeeId, string action, int withinSeconds)
